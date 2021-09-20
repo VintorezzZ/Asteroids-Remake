@@ -5,20 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class StaticButtons : MonoBehaviour
 {
-    [SerializeField] GameObject pausePanel; 
-    [SerializeField] GameObject startPanel; 
     public void StartGame()
     {
-        startPanel.SetActive(false);
-        Time.timeScale = 1;
-        Cursor.visible = false;
+        GameManager.instance.StartGame();
     }
 
     public void Unpause()
     {
-        pausePanel.SetActive(false);
-        Time.timeScale = 1;
-        Cursor.visible = false;
+        GameManager.instance.UnpauseGame();
     }
 
     public void RestartGame()

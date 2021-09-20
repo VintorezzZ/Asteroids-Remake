@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using DefaultNamespace;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using EventHandler = DefaultNamespace.EventHandler;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -12,62 +14,37 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     
     public List<Asteroid> aliveAsteroids;
-    public List<GameObject> spawners;
-    public List<GameObject> livesList;
     public float spawnEnemyDelay = 30f;
-    private float _lastSpawnEnemyTime;
+    
+    private float _lastEnemySpawnTime;
     private int _score;
-    [SerializeField] GameObject pausePanel;
-    [SerializeField] GameObject gameOverPanel;
-    [SerializeField] Text scoreText;
-    public Player player;
+    
+    [HideInInspector] public Player player;
+    
+    private bool _gameOver = false;    
+    private bool _gameStarted = false;
+    private bool _gamePaused = false;
+    public bool IsGameOver => _gameOver;
+    public bool IsGameStarted => _gameStarted;
+    public bool IsGamePaused => _gamePaused;
+
+    [SerializeField] Spawner _spawner;
+
     private void Awake()
     {
         instance = this;
         LevelSettings.CalculateScreenBounds(Camera.main);
+        _spawner = FindObjectOfType<Spawner>();
     }
     private void Start()
     {
         _score = 0;
-        scoreText.text = _score.ToString();
-        SpawnPlayer();
-        SpawnAsteroids(5);
+        player = _spawner.SpawnPlayer();
+        _spawner.SpawnAsteroids(5);
         Time.timeScale = 0;
-        spawnEnemyDelay = 30f;
+        _gameOver = false;
     }
-
-    void SpawnAsteroids(int count)
-    {
-        for (int i = 0; i < count; i++)
-        {
-            var position = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-            var asteroid = SpawnObject(PoolType.BigAsteroid, position, Quaternion.identity).GetComponent<Asteroid>();
-            asteroid.Init();
-            aliveAsteroids.Add(asteroid);
-        }
-    }
-
-    private PoolItem SpawnObject(PoolType type, Vector3 position, Quaternion rotation)
-    {
-        var item = PoolManager.Get(type);
-        item.gameObject.SetActive(true);
-        item.transform.position = position;
-        item.transform.rotation = rotation;
-        return item;
-    }
-
-    void SpawnEnemyShip()
-    {
-        var spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-        var ship = SpawnObject(PoolType.EnemyShip, spawnPoint, Quaternion.identity);
-        ship.GetComponent<EnemyShip>().Init(player);
-    }
-
-    void SpawnPlayer()
-    {
-        player = Instantiate(player, Vector3.zero, Quaternion.identity);
-        player.Init();
-    }
+    
     private void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
@@ -76,45 +53,64 @@ public class GameManager : MonoBehaviour
         {
             if (Time.timeScale == 0)
             {
-                Time.timeScale = 1;
-                pausePanel.SetActive(false);
-                Cursor.visible = false;
+                if(_gameStarted)
+                    UnpauseGame();
             }
             else
             {
-                Time.timeScale = 0;
-                pausePanel.SetActive(true);
-                Cursor.visible = true;
+                PauseGame();
             }
         }
 
         if (aliveAsteroids.Count < 5) 
         {
-            SpawnAsteroids(1);
+            _spawner.SpawnAsteroids(1);
         }
 
-        if (_lastSpawnEnemyTime + 5 <= Time.time)
+        if (_lastEnemySpawnTime + spawnEnemyDelay <= Time.time)
         {
-            SpawnEnemyShip();
-            _lastSpawnEnemyTime = Time.time;
+            _spawner.SpawnEnemyShip();
+            _lastEnemySpawnTime = Time.time;
         }
+    }
+
+    public void StartGame()
+    {
+        _gameStarted = true;
+        UnpauseGame();
+    }
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        Cursor.visible = false;
+        _gamePaused = false;
+        EventHandler.OnGamePaused(false);   
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        Cursor.visible = true;
+        _gamePaused = true;
+        EventHandler.OnGamePaused(true);
     }
 
     public void AddPoints(int points)
     {
         _score += points;
-        scoreText.text = _score.ToString();
+        EventHandler.OnScoreChanged(_score);
     }
 
     internal void GameOver()
     {
-        gameOverPanel.SetActive(true);
         Cursor.visible = true;
+        _gameOver = true;
+        EventHandler.OnGameOvered();
     }
 
     internal void UpdateLives(int livesCount)
     {
-        Destroy(livesList[livesCount]);
+        EventHandler.OnHealthChanged(livesCount);
         if (livesCount == 0)
         {
             GameOver();

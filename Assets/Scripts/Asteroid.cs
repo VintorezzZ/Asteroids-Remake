@@ -79,6 +79,7 @@ public class Asteroid : BasePlayer, IPoolObservable
         for (int i = 0; i < count; i++)
         {
             var item = PoolManager.Get(PoolType.SmallAsteroid);
+            item.gameObject.SetActive(true);
             item.transform.position = transform.position;
             item.transform.rotation = transform.rotation;
             item.GetComponent<Asteroid>().Init();

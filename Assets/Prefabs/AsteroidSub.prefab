@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4089299639951264349}
   - component: {fileID: 4089299639951264351}
   - component: {fileID: 4089299639951264348}
-  - component: {fileID: 5728660444307315107}
   m_Layer: 11
   m_Name: AsteroidSub
   m_TagString: Enemy
@@ -69,23 +68,10 @@ MonoBehaviour:
   maxSpeed: 3
   maxRotation: 25
   fireSFX: {fileID: 0}
-  boomVFX: {fileID: 100014, guid: a57a6829db3568c4d9bdc37e9e63c017, type: 3}
   subAsteroid: {fileID: 0}
   points: 0
   bigBoomSFX: {fileID: 8300000, guid: 34cb3c581712f684493d05dc40d382b8, type: 3}
   smallBoomSFX: {fileID: 8300000, guid: 9da48d5eff3344f4d99523eab1131a55, type: 3}
---- !u!114 &5728660444307315107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4089299639951264346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a33e332e8285546a08cae22a35e8dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &4089299640527478806
 PrefabInstance:
   m_ObjectHideFlags: 0

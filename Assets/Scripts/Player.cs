@@ -8,12 +8,12 @@ public class Player : BasePlayer
     [SerializeField] float thrustSpeed;
     [SerializeField] ParticleSystem thrustEffect;
     [SerializeField] AudioClip thrustSFX;
-    float horizontalInput;
-    float verticalInput;
-    int lives = 3;
+    private float horizontalInput;
+    private float verticalInput;
+    private int lives = 3;
 
     private Collider _collider;
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -74,8 +74,16 @@ public class Player : BasePlayer
 
     private void OnCollisionEnter(Collision other)
     {
-        if (_collider.enabled/*other.gameObject.TryGetComponent(out EnemyShip enemy) || other.gameObject.TryGetComponent(out Asteroid asteroid)*/)
+        if (other.gameObject.TryGetComponent(out Bullet bullet)
+            || other.gameObject.TryGetComponent(out Asteroid asteroid)
+            || other.gameObject.TryGetComponent(out EnemyShip enemy)  )
         {
+            if(!_collider.enabled)
+                return;
+            
+            if(bullet && bullet.owner is Player)
+                return;
+            
             lives--;
             _collider.enabled = false;
             

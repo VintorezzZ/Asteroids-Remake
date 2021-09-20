@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace DefaultNamespace
 {
-    [RequireComponent(typeof(Rigidbody), typeof(AudioSource), typeof(PoolItem))]
+    [RequireComponent(typeof(Rigidbody), typeof(AudioSource))]
     public abstract class BasePlayer : VisibleObject
     {
         [SerializeField] protected GameObject bulletPrefab;
@@ -40,9 +40,20 @@ namespace DefaultNamespace
 
         protected virtual void Update()
         {
-            Shoot();
+            if(CanShoot())
+                Shoot();
+            
             CheckPosition();
         }
+
+        private bool CanShoot()
+        {
+            if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePaused || !GameManager.instance.IsGameStarted)
+                return false;
+
+            return true;
+        }
+
         protected virtual void FixedUpdate()
         {
             

@@ -5,7 +5,7 @@ using DefaultNamespace;
 using UnityEditor;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody), typeof(PoolItem))]
+[RequireComponent(typeof(Rigidbody))]
 public class Bullet : VisibleObject, IPoolObservable
 {
     [SerializeField] float speed = 500f;
@@ -29,6 +29,7 @@ public class Bullet : VisibleObject, IPoolObservable
 
     private void OnCollisionEnter(Collision collision)
     {
+        CancelInvoke(nameof(ReturnToPool));
         PoolManager.Return(GetComponent<PoolItem>());
     }
 
@@ -39,7 +40,8 @@ public class Bullet : VisibleObject, IPoolObservable
 
     public void OnReturnToPool()
     {
-        
+        rb.velocity = Vector3.zero;
+        owner = null;
     }
 
     public void OnTakeFromPool()

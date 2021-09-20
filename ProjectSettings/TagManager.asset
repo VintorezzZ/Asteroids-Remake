@@ -17,10 +17,10 @@ TagManager:
   - 
   - 
   - Player
-  - Bullet
-  - EnemyShip
+  - PlayerBullet
+  - EnemyBullet
   - Asteroid
-  - 
+  - EnemyShip
   - 
   - 
   - 

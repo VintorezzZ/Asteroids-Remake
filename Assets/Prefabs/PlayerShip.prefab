@@ -56,7 +56,6 @@ MonoBehaviour:
   maxSpeed: 3
   maxRotation: 0
   fireSFX: {fileID: 8300000, guid: 3b522b450422eac46b4c0ed2ead1de16, type: 3}
-  boomVFX: {fileID: 100014, guid: a57a6829db3568c4d9bdc37e9e63c017, type: 3}
   thrustSpeed: 300
   thrustEffect: {fileID: 3686266495233474468}
   thrustSFX: {fileID: 8300000, guid: 1bee6d7210ee9de4b8822aee427856fa, type: 3}
@@ -98,7 +97,7 @@ AudioSource:
   m_GameObject: {fileID: 3686266494639792102}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: a15e9a3bcad8fec4d93295885d924404, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.3

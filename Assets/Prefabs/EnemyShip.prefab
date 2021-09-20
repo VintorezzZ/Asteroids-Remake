@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1838094002}
   - component: {fileID: 1838094004}
   - component: {fileID: 1838094003}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: ThrustEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4828,7 +4828,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1422526055716480036}
   - component: {fileID: 1394608897653927972}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4871,7 +4871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1419481499503427676}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GunBarrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4905,8 +4905,7 @@ GameObject:
   - component: {fileID: 1419481500597471343}
   - component: {fileID: 1419481500597471328}
   - component: {fileID: 3002992585086695578}
-  - component: {fileID: 7114601535114576022}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: EnemyShip
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -4942,14 +4941,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b02320e6e6d7a4a95e1761eb6c7a4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 6895226400293766891, guid: ba22478e75b5bc64d894000e4b756a28, type: 3}
+  bulletPrefab: {fileID: 6895226400293766891, guid: 989dca06681cabd4297006ed11e36288, type: 3}
   gunPos: {fileID: 1419481499503427676}
   shootDelay: 0.1
   rotationSpeed: 0
   maxSpeed: 3
   maxRotation: 0
   fireSFX: {fileID: 8300000, guid: 3b522b450422eac46b4c0ed2ead1de16, type: 3}
-  boomVFX: {fileID: 100014, guid: a57a6829db3568c4d9bdc37e9e63c017, type: 3}
   bigBoomSFX: {fileID: 8300000, guid: 34cb3c581712f684493d05dc40d382b8, type: 3}
 --- !u!54 &1419481500597471343
 Rigidbody:
@@ -4989,7 +4987,7 @@ AudioSource:
   m_GameObject: {fileID: 1419481500597471340}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: a15e9a3bcad8fec4d93295885d924404, type: 2}
   m_audioClip: {fileID: 8300000, guid: 22f0c0d6645de5c4e9dc602ed6976923, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.3
@@ -5076,18 +5074,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7114601535114576022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1419481500597471340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03a33e332e8285546a08cae22a35e8dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1420042764875148676
 GameObject:
   m_ObjectHideFlags: 0
@@ -5098,7 +5084,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414865221960550384}
   - component: {fileID: 1394706327195813092}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5141,7 +5127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1422246117846585852}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5179,7 +5165,7 @@ GameObject:
   - component: {fileID: 1422225174372902554}
   - component: {fileID: 1425041814308532444}
   - component: {fileID: 1434122005744491280}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: StarSparrow1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5261,7 +5247,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414979173480495492}
   - component: {fileID: 1394566881271463154}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5305,7 +5291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1414721616924874492}
   - component: {fileID: 1392957021810727012}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider6
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5349,7 +5335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1422287275162263322}
   - component: {fileID: 1392987373986063854}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider5
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -5393,7 +5379,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1415192152032665914}
   - component: {fileID: 1394744174156870604}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Collider4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
