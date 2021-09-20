@@ -56,6 +56,7 @@ MonoBehaviour:
   maxSpeed: 3
   maxRotation: 0
   fireSFX: {fileID: 8300000, guid: 3b522b450422eac46b4c0ed2ead1de16, type: 3}
+  bulletPhysicsLayer: 9
   thrustSpeed: 300
   thrustEffect: {fileID: 3686266495233474468}
   thrustSFX: {fileID: 8300000, guid: 1bee6d7210ee9de4b8822aee427856fa, type: 3}

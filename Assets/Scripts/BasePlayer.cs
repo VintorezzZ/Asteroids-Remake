@@ -21,7 +21,8 @@ namespace DefaultNamespace
         [SerializeField] protected float maxRotation;
 
         [SerializeField] protected AudioClip fireSFX;
-        
+        [SerializeField] private int bulletPhysicsLayer;
+
         protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody>();
@@ -76,6 +77,7 @@ namespace DefaultNamespace
             bullet.transform.position = new Vector2(gunPos.position.x, gunPos.position.y);
             bullet.transform.rotation = gunPos.rotation;
             var b = bullet.GetComponent<Bullet>();
+            b.gameObject.layer = bulletPhysicsLayer;
             b.owner = this;
             b.Init();
         }

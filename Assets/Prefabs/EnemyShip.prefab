@@ -4948,6 +4948,7 @@ MonoBehaviour:
   maxSpeed: 3
   maxRotation: 0
   fireSFX: {fileID: 8300000, guid: 3b522b450422eac46b4c0ed2ead1de16, type: 3}
+  bulletPhysicsLayer: 10
   bigBoomSFX: {fileID: 8300000, guid: 34cb3c581712f684493d05dc40d382b8, type: 3}
 --- !u!54 &1419481500597471343
 Rigidbody:
