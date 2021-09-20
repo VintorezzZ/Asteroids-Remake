@@ -1,112 +1,77 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class Asteroid : MonoBehaviour
+public class Asteroid : BasePlayer
 {
-    [SerializeField] float maxRotation = 25f;
-    [SerializeField] float maxSpeed = 2;
-    [SerializeField] GameObject subAsteroid;
+    [SerializeField] Asteroid subAsteroid;
     [SerializeField] int points;
-    Camera mainCam;
-    Rigidbody rb;
     private float rotationX;
     private float rotationY;
     private float rotationZ;
-    AudioSource audioSource;
     [SerializeField] AudioClip bigBoomSFX;
     [SerializeField] AudioClip smallBoomSFX;
     AudioClip audioClip;
-    [SerializeField] GameObject BoomVFX;
-
-    private void Start()
+    
+    public override void Init()
     {
-        mainCam = Camera.main;
-        rb = GetComponent<Rigidbody>();
-
+        base.Init();
+        
         rotationX = Random.Range(-maxRotation, maxRotation);
         rotationY = Random.Range(-maxRotation, maxRotation);
         rotationZ = Random.Range(-maxRotation, maxRotation);
 
         rb.velocity = new Vector2(Random.Range(-maxSpeed, maxSpeed), Random.Range(-maxSpeed, maxSpeed));
-
-        audioSource = GetComponent<AudioSource>();
+        
+        maxRotation = 25f;
+        maxSpeed = 2f;
+        screenOffset = 1f;
     }
 
-    private void FixedUpdate()
+    protected override void Update()
     {
         CheckPosition();
         transform.Rotate(new Vector3(rotationX, rotationY, 0) * Time.deltaTime);
     }
 
-
+    private void StartDeath()
+    {
+        AudioManager.instance.PlayBoomSFX(audioClip);
+        Instantiate(boomVFX, transform.position, Quaternion.identity);
+        Destroy(gameObject, 0.1f);
+    }
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Bullet")
+        if (other.gameObject.TryGetComponent(out Bullet bullet))
         {
             points = 125;
             audioClip = smallBoomSFX;
             if (subAsteroid != null)
             {
-                Instantiate(subAsteroid, transform.position, Quaternion.identity);
-                Instantiate(subAsteroid, transform.position, Quaternion.identity);
-                GameManager.instance.aliveAsteroids.Remove(this.gameObject);
+                Instantiate(subAsteroid, transform.position, Quaternion.identity).Init();
+                Instantiate(subAsteroid, transform.position, Quaternion.identity).Init();
+                GameManager.instance.aliveAsteroids.Remove(this);
                 audioClip = bigBoomSFX;
                 points = 75;
             }
-            AudioManager.instance.PlayBoomSFX(audioClip);
-            Instantiate(BoomVFX, transform.position, Quaternion.identity);
+            
             GameManager.instance.AddPoints(points);
-            Destroy(gameObject, 0.1f);
+            StartDeath();
         }
 
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.TryGetComponent(out Player player))
         {
             audioClip = bigBoomSFX;
             if (subAsteroid != null)
             {
-                GameManager.instance.aliveAsteroids.Remove(this.gameObject);
+                GameManager.instance.aliveAsteroids.Remove(this);
             }
-            AudioManager.instance.PlayBoomSFX(audioClip);
-            Instantiate(BoomVFX, transform.position, Quaternion.identity);
-            Destroy(gameObject, 0.1f);
+            
+            StartDeath();
         }
     }
-
-    private void CheckPosition()
-    {
-
-        float rockOffset = 1;
-
-        float sceneWidth = mainCam.orthographicSize * 2 * mainCam.aspect;
-        float sceneHeight = mainCam.orthographicSize * 2;
-
-        float sceneRightEdge = sceneWidth / 2;
-        float sceneLeftEdge = sceneRightEdge * -1;
-        float sceneTopEdge = sceneHeight / 2;
-        float sceneBottomEdge = sceneTopEdge * -1;
-
-        if (transform.position.x > sceneRightEdge + rockOffset)
-        {
-            transform.position = new Vector2(sceneLeftEdge - rockOffset, transform.position.y);
-        }
-
-        if (transform.position.x < sceneLeftEdge - rockOffset)
-        {
-            transform.position = new Vector2(sceneRightEdge + rockOffset, transform.position.y);
-        }
-
-        if (transform.position.y > sceneTopEdge + rockOffset)
-        {
-            transform.position = new Vector2(transform.position.x, sceneBottomEdge - rockOffset);
-        }
-
-        if (transform.position.y < sceneBottomEdge - rockOffset)
-        {
-            transform.position = new Vector2(transform.position.x, sceneTopEdge + rockOffset);
-        }
-
-    }
-
 }

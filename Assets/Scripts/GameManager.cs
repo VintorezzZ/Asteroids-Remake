@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,47 +9,58 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public List<GameObject> asteroidsList;
-    public List<GameObject> aliveAsteroids;
+    public List<Asteroid> asteroidsList;
+    public List<Asteroid> aliveAsteroids;
     public List<GameObject> spawners;
     public List<GameObject> livesList;
-    public GameObject enemyShip;
-    Vector3 spawnPoint;
-    int score;
-    int lives = 3;
+    public EnemyShip enemyShip;
+    public float spawnEnemyDelay = 30f;
+    private float _lastSpawnEnemyTime;
+    private int _score;
     [SerializeField] GameObject pausePanel;
     [SerializeField] GameObject gameOverPanel;
     [SerializeField] Text scoreText;
-    float timer;
+    public Player player;
     private void Awake()
     {
         instance = this;
     }
     private void Start()
     {
-        score = 0;
-        scoreText.text = score.ToString();
+        LevelSettings.CalculateScreenBounds(Camera.main);
+        
+        _score = 0;
+        scoreText.text = _score.ToString();
+        SpawnPlayer();
         SpawnAsteroids(5);
         Time.timeScale = 0;
+        spawnEnemyDelay = 30f;
     }
 
     void SpawnAsteroids(int count)
     {
         for (int i = 0; i < count; i++)
         {
-            GameObject asteroid = asteroidsList[Random.Range(0, asteroidsList.Count - 1)];
-            spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-            GameObject asteroidClon = Instantiate(asteroid, spawnPoint, Quaternion.identity);
-            aliveAsteroids.Add(asteroidClon);
+            Asteroid asteroid = asteroidsList[Random.Range(0, asteroidsList.Count - 1)];
+            var spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
+            Asteroid asteroidObject = Instantiate(asteroid, spawnPoint, Quaternion.identity);
+            asteroidObject.Init();
+            aliveAsteroids.Add(asteroidObject);
         }
     }
     
     void SpawnEnemyShip()
     {
-        spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-        Instantiate(enemyShip, spawnPoint, Quaternion.identity);
+        var spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
+        var enemy = Instantiate(enemyShip, spawnPoint, Quaternion.identity);
+        enemy.Init(player);
     }
 
+    void SpawnPlayer()
+    {
+        player = Instantiate(player, Vector3.zero, Quaternion.identity);
+        player.Init();
+    }
     private void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
@@ -74,19 +86,19 @@ public class GameManager : MonoBehaviour
             SpawnAsteroids(1);
         }
 
-        timer += Time.deltaTime;
-        if (timer > 30f)
+       
+        if (_lastSpawnEnemyTime + spawnEnemyDelay <= Time.time)
         {
             SpawnEnemyShip();
-            timer = 0;
+            _lastSpawnEnemyTime = Time.time;
         }
         
     }
 
     public void AddPoints(int points)
     {
-        score += points;
-        scoreText.text = score.ToString();
+        _score += points;
+        scoreText.text = _score.ToString();
     }
 
     internal void GameOver()
@@ -95,13 +107,11 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
     }
 
-    internal void UpdateLives()
+    internal void UpdateLives(int livesCount)
     {
-        lives--;
-        Destroy(livesList[lives]);
-        if (lives == 0)
+        Destroy(livesList[livesCount]);
+        if (livesCount == 0)
         {
-            lives = 0;
             GameOver();
         }
     }
