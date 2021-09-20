@@ -80,10 +80,7 @@ public class Player : BasePlayer
         {
             if(!_collider.enabled)
                 return;
-            
-            if(bullet && bullet.owner is Player)
-                return;
-            
+     
             lives--;
             _collider.enabled = false;
             

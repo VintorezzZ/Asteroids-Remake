@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
@@ -24,12 +25,30 @@ namespace DefaultNamespace
             EventHandler.gameOvered += ShowGameOverPanel;
             EventHandler.scoreChanged += UpdateScore;
             EventHandler.healthChanged += UpdateLivesObjects;
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
+            if(arg0.buildIndex == 1)
+            {
+                SetupUi();
+            }        
+        }
+
+        private void SetupUi()
+        {
+            gameOverPanel.SetActive(false);
+            startPanel.SetActive(true);
+            foreach (var life in livesList)
+            {
+                life.SetActive(true);
+            }
         }
 
         private void Start()
         {
             scoreText.text = "0";
-
         }
 
         private void UpdateScore(int score)
@@ -42,9 +61,9 @@ namespace DefaultNamespace
             gameOverPanel.SetActive(true);
         }
 
-        private void ShowPausePanel(bool show)
+        private void ShowPausePanel(bool pause)
         {
-            if (show)
+            if (pause)
             {
                 pausePanel.SetActive(true);
             }
@@ -57,7 +76,7 @@ namespace DefaultNamespace
 
         private void UpdateLivesObjects(int livesCount)
         {
-            Destroy(livesList[livesCount]);
+            livesList[livesCount].SetActive(false);
         }
     }
 }

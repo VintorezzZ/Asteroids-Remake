@@ -101,6 +101,8 @@ namespace DefaultNamespace
 
         private void ReturnToPool()
         {
+            rb.velocity = Vector3.zero;
+            GameManager.instance.aliveEntities.Remove(GetComponent<PoolItem>());
             PoolManager.Return(GetComponent<PoolItem>());
         }
     }

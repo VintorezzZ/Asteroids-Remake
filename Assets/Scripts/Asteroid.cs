@@ -51,7 +51,7 @@ public class Asteroid : BasePlayer, IPoolObservable
             audioClip = smallBoomSFX;
             if (subAsteroid != null)
             {
-                CreateSubAsteroids(2);
+                CreateSubAsteroids();
                 
                 GameManager.instance.aliveAsteroids.Remove(this);
                 audioClip = bigBoomSFX;
@@ -74,16 +74,9 @@ public class Asteroid : BasePlayer, IPoolObservable
         }
     }
 
-    private void CreateSubAsteroids(int count)
+    private void CreateSubAsteroids()
     {
-        for (int i = 0; i < count; i++)
-        {
-            var item = PoolManager.Get(PoolType.SmallAsteroid);
-            item.gameObject.SetActive(true);
-            item.transform.position = transform.position;
-            item.transform.rotation = transform.rotation;
-            item.GetComponent<Asteroid>().Init();
-        }
+        GameManager.instance.spawner.SpawnAsteroids(2, PoolType.SmallAsteroid, transform.position);
     }
 
     public void OnReturnToPool()
@@ -93,6 +86,6 @@ public class Asteroid : BasePlayer, IPoolObservable
 
     public void OnTakeFromPool()
     {
-        Init();
+        
     }
 }

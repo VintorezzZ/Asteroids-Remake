@@ -5,6 +5,7 @@ using System.Threading;
 using DefaultNamespace;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using EventHandler = DefaultNamespace.EventHandler;
 using Random = UnityEngine.Random;
@@ -12,7 +13,8 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    
+
+    public List<PoolItem> aliveEntities;
     public List<Asteroid> aliveAsteroids;
     public float spawnEnemyDelay = 30f;
     
@@ -28,23 +30,45 @@ public class GameManager : MonoBehaviour
     public bool IsGameStarted => _gameStarted;
     public bool IsGamePaused => _gamePaused;
 
-    [SerializeField] Spawner _spawner;
+    public Spawner spawner;
 
     private void Awake()
     {
         instance = this;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
+        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        
         LevelSettings.CalculateScreenBounds(Camera.main);
-        _spawner = FindObjectOfType<Spawner>();
+        spawner = FindObjectOfType<Spawner>();
     }
-    private void Start()
+
+    private void OnSceneUnloaded(Scene arg0)
     {
-        _score = 0;
-        player = _spawner.SpawnPlayer();
-        _spawner.SpawnAsteroids(5);
-        Time.timeScale = 0;
-        _gameOver = false;
+        if (arg0.buildIndex == 1)
+        {
+            SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        }
     }
-    
+
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        if(arg0.buildIndex == 1)
+        {
+            spawner = FindObjectOfType<Spawner>();
+            player = spawner.SpawnPlayer();
+            spawner.SpawnAsteroids(5, PoolType.BigAsteroid);
+            _gameOver = false;
+            Time.timeScale = 0;
+            _score = 0;
+            AddPoints(0);
+
+            _score = 0;
+            _gameOver = false;
+        }
+    }
+
     private void Update()
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * 0.8f);
@@ -62,14 +86,17 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if(IsGameOver)
+            return;
+        
         if (aliveAsteroids.Count < 5) 
         {
-            _spawner.SpawnAsteroids(1);
+            spawner.SpawnAsteroids(1, PoolType.BigAsteroid);
         }
 
         if (_lastEnemySpawnTime + spawnEnemyDelay <= Time.time)
         {
-            _spawner.SpawnEnemyShip();
+            spawner.SpawnEnemyShip();
             _lastEnemySpawnTime = Time.time;
         }
     }
@@ -77,6 +104,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         _gameStarted = true;
+        _lastEnemySpawnTime = Time.time;
         UnpauseGame();
     }
     public void UnpauseGame()
@@ -105,6 +133,7 @@ public class GameManager : MonoBehaviour
     {
         Cursor.visible = true;
         _gameOver = true;
+        
         EventHandler.OnGameOvered();
     }
 
@@ -115,5 +144,26 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    public void RestartGame()
+    {
+        aliveAsteroids.Clear();
+
+        foreach (var item in aliveEntities)
+        {
+            item.ReturnToPool();
+        }
+        
+        aliveEntities.Clear();
+        
+        SceneManager.UnloadSceneAsync(1);
+        
+        // foreach (var entity in aliveEntities)
+        // {
+        //     entity.ReturnToPool();
+        // }
+        //
+        // spawner.SpawnPlayer();
     }
 }

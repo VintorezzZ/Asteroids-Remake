@@ -17,7 +17,7 @@ public class StaticButtons : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(0);
+        GameManager.instance.RestartGame();
     }
 
     public void ExitGame()
