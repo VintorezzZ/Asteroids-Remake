@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6895226400293766888}
   - component: {fileID: 716290734}
   - component: {fileID: 3343259306476919153}
+  - component: {fileID: 8453590982032143708}
   m_Layer: 0
   m_Name: EnemyBullet
   m_TagString: Enemy
@@ -54,6 +55,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -126,3 +128,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
+--- !u!114 &8453590982032143708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6895226400293766891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a33e332e8285546a08cae22a35e8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

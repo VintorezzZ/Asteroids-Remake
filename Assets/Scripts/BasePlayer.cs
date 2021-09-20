@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 
 namespace DefaultNamespace
 {
-    public abstract class BasePlayer : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody), typeof(AudioSource), typeof(PoolItem))]
+    public abstract class BasePlayer : VisibleObject
     {
         [SerializeField] protected GameObject bulletPrefab;
         [SerializeField] protected Transform gunPos;
@@ -19,30 +20,22 @@ namespace DefaultNamespace
         [FormerlySerializedAs("MaxSpeed")] [SerializeField] protected float maxSpeed;
         [SerializeField] protected float maxRotation;
 
-
-        protected float screenOffset = 0f;
-        protected float sceneRightEdge;
-        protected float sceneLeftEdge;
-        protected float sceneTopEdge;
-        protected float sceneBottomEdge;
-
         [SerializeField] protected AudioClip fireSFX;
-        [FormerlySerializedAs("BoomVFX")] [SerializeField] protected GameObject boomVFX;
-
         
-        public virtual void Init()
+        protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
+        }
 
-            GetScreenBounds();
+        public virtual void Init()
+        {
+            
         }
         public virtual void Init(Player player)
         {
             Init();
             this.player = player;
-            
-            GetScreenBounds();
         }
 
         protected virtual void Update()
@@ -60,39 +53,42 @@ namespace DefaultNamespace
             if (lastShootTime + shootDelay <= Time.time)
             {
                 audioSource.PlayOneShot(fireSFX);
-                Instantiate(bulletPrefab, new Vector2(gunPos.position.x, gunPos.position.y), gunPos.rotation);
+                CreateBullet();
                 lastShootTime = Time.time;
             }
         }
-        private void GetScreenBounds()
+
+        private void CreateBullet()
         {
-            sceneRightEdge = LevelSettings.SceneRightEdge;
-            sceneLeftEdge = LevelSettings.SceneLeftEdge;
-            sceneTopEdge = LevelSettings.SceneTopEdge;
-            sceneBottomEdge = LevelSettings.SceneBottomEdge;
+            var bullet = PoolManager.Get(PoolType.Bullet);
+            bullet.gameObject.SetActive(true);
+            bullet.transform.position = new Vector2(gunPos.position.x, gunPos.position.y);
+            bullet.transform.rotation = gunPos.rotation;
+            var b = bullet.GetComponent<Bullet>();
+            b.owner = this;
+            b.Init();
         }
 
-        protected void CheckPosition()
+        protected void SpawnExplosionVFX(AudioClip audioClip)
         {
-            if (transform.position.x > sceneRightEdge + screenOffset)
-            {
-                transform.position = new Vector2(sceneLeftEdge - screenOffset, transform.position.y);
-            }
+            var explosion = PoolManager.Get(PoolType.Explosion_vfx).transform;
+            explosion.gameObject.SetActive(true);
+            explosion.position = transform.position;
+            explosion.rotation = Quaternion.identity;
+            
+            if(audioClip)
+                AudioManager.instance.PlayBoomSFX(audioClip);
+        }
 
-            if (transform.position.x < sceneLeftEdge - screenOffset)
-            {
-                transform.position = new Vector2(sceneRightEdge + screenOffset, transform.position.y);
-            }
+        protected virtual void Die(AudioClip audioClip , float returningTime)
+        {
+            SpawnExplosionVFX(audioClip);
+            Invoke(nameof(ReturnToPool), returningTime);
+        }
 
-            if (transform.position.y > sceneTopEdge + screenOffset)
-            {
-                transform.position = new Vector2(transform.position.x, sceneBottomEdge - screenOffset);
-            }
-
-            if (transform.position.y < sceneBottomEdge - screenOffset)
-            {
-                transform.position = new Vector2(transform.position.x, sceneTopEdge + screenOffset);
-            }
+        private void ReturnToPool()
+        {
+            PoolManager.Return(GetComponent<PoolItem>());
         }
     }
 }

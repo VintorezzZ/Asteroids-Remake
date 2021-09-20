@@ -6,7 +6,7 @@ using DefaultNamespace;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemyShip : BasePlayer
+public class EnemyShip : BasePlayer, IPoolObservable
 {
     [SerializeField] AudioClip bigBoomSFX;
     
@@ -38,10 +38,21 @@ public class EnemyShip : BasePlayer
     {
         if (collision.gameObject.TryGetComponent(out Bullet bullet) || collision.gameObject.TryGetComponent(out Player player))
         {
+            if(bullet && !(bullet.owner is Player))
+                    return;
+            
             GameManager.instance.AddPoints(1000);
-            Instantiate(boomVFX, transform.position, Quaternion.identity);
-            AudioManager.instance.PlayBoomSFX(bigBoomSFX);
-            Destroy(gameObject);
+            Die(bigBoomSFX, 0f);
         }
+    }
+
+    public void OnReturnToPool()
+    {
+        
+    }
+
+    public void OnTakeFromPool()
+    {
+        
     }
 }

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Threading;
 using DefaultNamespace;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
-    public List<Asteroid> asteroidsList;
+    
     public List<Asteroid> aliveAsteroids;
     public List<GameObject> spawners;
     public List<GameObject> livesList;
-    public EnemyShip enemyShip;
     public float spawnEnemyDelay = 30f;
     private float _lastSpawnEnemyTime;
     private int _score;
@@ -24,11 +24,10 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        LevelSettings.CalculateScreenBounds(Camera.main);
     }
     private void Start()
     {
-        LevelSettings.CalculateScreenBounds(Camera.main);
-        
         _score = 0;
         scoreText.text = _score.ToString();
         SpawnPlayer();
@@ -41,19 +40,27 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            Asteroid asteroid = asteroidsList[Random.Range(0, asteroidsList.Count - 1)];
-            var spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-            Asteroid asteroidObject = Instantiate(asteroid, spawnPoint, Quaternion.identity);
-            asteroidObject.Init();
-            aliveAsteroids.Add(asteroidObject);
+            var position = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
+            var asteroid = SpawnObject(PoolType.BigAsteroid, position, Quaternion.identity).GetComponent<Asteroid>();
+            asteroid.Init();
+            aliveAsteroids.Add(asteroid);
         }
     }
-    
+
+    private PoolItem SpawnObject(PoolType type, Vector3 position, Quaternion rotation)
+    {
+        var item = PoolManager.Get(type);
+        item.gameObject.SetActive(true);
+        item.transform.position = position;
+        item.transform.rotation = rotation;
+        return item;
+    }
+
     void SpawnEnemyShip()
     {
         var spawnPoint = spawners[Random.Range(0, spawners.Count - 1)].transform.position;
-        var enemy = Instantiate(enemyShip, spawnPoint, Quaternion.identity);
-        enemy.Init(player);
+        var ship = SpawnObject(PoolType.EnemyShip, spawnPoint, Quaternion.identity);
+        ship.GetComponent<EnemyShip>().Init(player);
     }
 
     void SpawnPlayer()
@@ -86,13 +93,11 @@ public class GameManager : MonoBehaviour
             SpawnAsteroids(1);
         }
 
-       
-        if (_lastSpawnEnemyTime + spawnEnemyDelay <= Time.time)
+        if (_lastSpawnEnemyTime + 5 <= Time.time)
         {
             SpawnEnemyShip();
             _lastSpawnEnemyTime = Time.time;
         }
-        
     }
 
     public void AddPoints(int points)

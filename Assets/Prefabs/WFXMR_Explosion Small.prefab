@@ -33739,6 +33739,7 @@ GameObject:
   - component: {fileID: 19800014}
   - component: {fileID: 19900014}
   - component: {fileID: 11400000}
+  - component: {fileID: -1897319533925874842}
   m_Layer: 0
   m_Name: WFXMR_Explosion Small
   m_TagString: Untagged
@@ -38526,7 +38527,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
+  OnlyDeactivate: 1
+--- !u!114 &-1897319533925874842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03a33e332e8285546a08cae22a35e8dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &100016
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class Asteroid : BasePlayer
+public class Asteroid : BasePlayer, IPoolObservable
 {
     [SerializeField] Asteroid subAsteroid;
     [SerializeField] int points;
@@ -16,7 +16,16 @@ public class Asteroid : BasePlayer
     [SerializeField] AudioClip bigBoomSFX;
     [SerializeField] AudioClip smallBoomSFX;
     AudioClip audioClip;
-    
+
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        maxRotation = 25f;
+        maxSpeed = 2f;
+        screenOffset = 1f;
+    }
+
     public override void Init()
     {
         base.Init();
@@ -26,10 +35,6 @@ public class Asteroid : BasePlayer
         rotationZ = Random.Range(-maxRotation, maxRotation);
 
         rb.velocity = new Vector2(Random.Range(-maxSpeed, maxSpeed), Random.Range(-maxSpeed, maxSpeed));
-        
-        maxRotation = 25f;
-        maxSpeed = 2f;
-        screenOffset = 1f;
     }
 
     protected override void Update()
@@ -37,13 +42,7 @@ public class Asteroid : BasePlayer
         CheckPosition();
         transform.Rotate(new Vector3(rotationX, rotationY, 0) * Time.deltaTime);
     }
-
-    private void StartDeath()
-    {
-        AudioManager.instance.PlayBoomSFX(audioClip);
-        Instantiate(boomVFX, transform.position, Quaternion.identity);
-        Destroy(gameObject, 0.1f);
-    }
+    
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.TryGetComponent(out Bullet bullet))
@@ -52,15 +51,15 @@ public class Asteroid : BasePlayer
             audioClip = smallBoomSFX;
             if (subAsteroid != null)
             {
-                Instantiate(subAsteroid, transform.position, Quaternion.identity).Init();
-                Instantiate(subAsteroid, transform.position, Quaternion.identity).Init();
+                CreateSubAsteroids(2);
+                
                 GameManager.instance.aliveAsteroids.Remove(this);
                 audioClip = bigBoomSFX;
                 points = 75;
             }
             
             GameManager.instance.AddPoints(points);
-            StartDeath();
+            Die(audioClip, .1f);
         }
 
         if (other.gameObject.TryGetComponent(out Player player))
@@ -71,7 +70,28 @@ public class Asteroid : BasePlayer
                 GameManager.instance.aliveAsteroids.Remove(this);
             }
             
-            StartDeath();
+            Die(audioClip, .1f);
         }
+    }
+
+    private void CreateSubAsteroids(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var item = PoolManager.Get(PoolType.SmallAsteroid);
+            item.transform.position = transform.position;
+            item.transform.rotation = transform.rotation;
+            item.GetComponent<Asteroid>().Init();
+        }
+    }
+
+    public void OnReturnToPool()
+    {
+        
+    }
+
+    public void OnTakeFromPool()
+    {
+        Init();
     }
 }

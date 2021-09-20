@@ -1,58 +1,49 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEditor;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(PoolItem))]
+public class Bullet : VisibleObject, IPoolObservable
 {
-    [SerializeField] float speed;
+    [SerializeField] float speed = 500f;
     Rigidbody rb;
-    Camera mainCam;
-    void Start()
+    public BasePlayer owner;
+
+    private void Awake()
     {
-        mainCam = Camera.main;
         rb = GetComponent<Rigidbody>();
+    }
+    public void Init()
+    {
         rb.AddForce(transform.up * speed);
+        Invoke(nameof(ReturnToPool), 2f);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Destroy(this.gameObject, 2f);
         CheckPosition();
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        Destroy(this.gameObject);
+        PoolManager.Return(GetComponent<PoolItem>());
     }
 
-    private void CheckPosition()
+    private void ReturnToPool()
     {
+        PoolManager.Return(GetComponent<PoolItem>());
+    }
 
-        float sceneWidth = mainCam.orthographicSize * 2 * mainCam.aspect;
-        float sceneHeight = mainCam.orthographicSize * 2;
+    public void OnReturnToPool()
+    {
+        
+    }
 
-        float sceneRightEdge = sceneWidth / 2;
-        float sceneLeftEdge = sceneRightEdge * -1;
-        float sceneTopEdge = sceneHeight / 2;
-        float sceneBottomEdge = sceneTopEdge * -1;
-
-        if (transform.position.x > sceneRightEdge)
-        {
-            transform.position = new Vector2(sceneLeftEdge, transform.position.y);
-        }
-        if (transform.position.x < sceneLeftEdge)
-        {
-            transform.position = new Vector2(sceneRightEdge, transform.position.y);
-        }
-        if (transform.position.y > sceneTopEdge)
-        {
-            transform.position = new Vector2(transform.position.x, sceneBottomEdge);
-        }
-        if (transform.position.y < sceneBottomEdge)
-        {
-            transform.position = new Vector2(transform.position.x, sceneTopEdge);
-        }
-
+    public void OnTakeFromPool()
+    {
+        Init();
     }
 }

@@ -14,16 +14,21 @@ public class Player : BasePlayer
 
     private Collider _collider;
 
-    public override void Init()
+    protected override void Awake()
     {
-        base.Init();
+        base.Awake();
         
         _collider = GetComponent<SphereCollider>();
     }
 
+    public override void Init()
+    {
+        base.Init();
+    }
+
     protected override void FixedUpdate()
     {
-        ShipControlls();
+        ProcessInput();
     }
 
     private void PlayParticles()
@@ -52,7 +57,7 @@ public class Player : BasePlayer
         }
     }
 
-    private void ShipControlls()
+    private void ProcessInput()
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
@@ -76,13 +81,18 @@ public class Player : BasePlayer
             
             if (lives == 0)
             {
-                Instantiate(boomVFX, transform.position, Quaternion.identity);
-                Destroy(gameObject);
+                Die(null, 0f);
             }
             
             GameManager.instance.UpdateLives(lives);
             Invoke("ActivateCollider", 2);
         }
+    }
+
+    protected override void Die(AudioClip audioClip, float returningTime)
+    {
+        SpawnExplosionVFX(audioClip);
+        Destroy(gameObject);
     }
 
     void ActivateCollider()
