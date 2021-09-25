@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0011260841, g: 0.0010569512, b: 0.0010045628, a: 1}
+  m_IndirectSpecularColor: {r: 0.0017110745, g: 0.0016521256, b: 0.0015579578, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -285,6 +285,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &654622768 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 654622768, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+  m_PrefabInstance: {fileID: 5654120478403997226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &946432905 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 946432905, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+  m_PrefabInstance: {fileID: 5654120478403997226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &1033255690 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 1033255690, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+  m_PrefabInstance: {fileID: 5654120478403997226}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1115982647 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4454016457385575436, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
@@ -314,7 +329,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 89497141123528260, guid: 402908d833c5a5c4680c13c9c44f7e0d, type: 3}
       propertyPath: m_Name
-      value: GameManager
+      value: Game Manager
       objectReference: {fileID: 0}
     - target: {fileID: 89497141123528266, guid: 402908d833c5a5c4680c13c9c44f7e0d, type: 3}
       propertyPath: m_RootOrder
@@ -493,26 +508,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ui
       objectReference: {fileID: 0}
-    - target: {fileID: 4454016456964264332, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454016457385575436, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454016458045456604, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454016458486440946, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454016458683582060, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 204a97feac62a2f429209d7e8bc6ebae, type: 3}
 --- !u!1001 &5654120478403997226
@@ -522,18 +517,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 946432905, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 946432905, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: m_Volume
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 946432905, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 946432905, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5654120477632660164, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
       propertyPath: m_Name
-      value: AudioManager
+      value: Sound Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 5654120477632660165, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
-      propertyPath: OutputAudioMixerGroup
-      value: 
-      objectReference: {fileID: 24300002, guid: a15e9a3bcad8fec4d93295885d924404, type: 2}
     - target: {fileID: 5654120477632660186, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
-      propertyPath: masterMixer
+      propertyPath: uiSource
       value: 
-      objectReference: {fileID: 24100000, guid: a15e9a3bcad8fec4d93295885d924404, type: 2}
+      objectReference: {fileID: 1033255690}
+    - target: {fileID: 5654120477632660186, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: musicSource
+      value: 
+      objectReference: {fileID: 946432905}
+    - target: {fileID: 5654120477632660186, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
+      propertyPath: inGameSource
+      value: 
+      objectReference: {fileID: 654622768}
     - target: {fileID: 5654120477632660187, guid: 80e25d53aa2f6ef46b6428107e5297cd, type: 3}
       propertyPath: m_RootOrder
       value: 2

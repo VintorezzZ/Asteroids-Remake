@@ -88,7 +88,7 @@ namespace DefaultNamespace
             explosion.rotation = Quaternion.identity;
             
             if(audioClip)
-                AudioManager.Instance.PlayBoomSFX(audioClip);
+                SoundManager.Instance.PlayBoomSFX(audioClip);
         }
 
         protected virtual void Die(AudioClip audioClip , float returningTime)
