@@ -18,10 +18,10 @@ namespace DefaultNamespace
         {
             InitializeSingleton();
             
-            EventHandler.gamePaused += ShowPausePanel;
-            EventHandler.gameOvered += ShowGameOverPanel;
-            EventHandler.scoreChanged += UpdateScore;
-            EventHandler.healthChanged += UpdateLivesObjects;
+            EventHub.gamePaused += ShowPausePanel;
+            EventHub.gameOvered += ShowGameOverPanel;
+            EventHub.scoreChanged += UpdateScore;
+            EventHub.healthChanged += UpdateLivesObjects;
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
@@ -60,6 +60,9 @@ namespace DefaultNamespace
 
         private void ShowPausePanel(bool pause)
         {
+            if(!GameManager.Instance.IsGameStarted)
+                return;
+            
             if (pause)
             {
                 pausePanel.SetActive(true);

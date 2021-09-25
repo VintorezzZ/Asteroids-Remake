@@ -2,7 +2,6 @@
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using EventHandler = DefaultNamespace.EventHandler;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -67,7 +66,13 @@ public class GameManager : SingletonBehaviour<GameManager>
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Time.timeScale == 0)
+            if(!_gameStarted)
+            {
+                QuitGame();
+                return;
+            }
+            
+            if (_gamePaused)
             {
                 if(_gameStarted)
                     UnpauseGame();
@@ -104,7 +109,7 @@ public class GameManager : SingletonBehaviour<GameManager>
         Time.timeScale = 1;
         Cursor.visible = false;
         _gamePaused = false;
-        EventHandler.OnGamePaused(false);   
+        EventHub.OnGamePaused(false);   
     }
 
     public void PauseGame()
@@ -112,26 +117,27 @@ public class GameManager : SingletonBehaviour<GameManager>
         Time.timeScale = 0;
         Cursor.visible = true;
         _gamePaused = true;
-        EventHandler.OnGamePaused(true);
+        EventHub.OnGamePaused(true);
     }
 
     public void AddPoints(int points)
     {
         _score += points;
-        EventHandler.OnScoreChanged(_score);
+        EventHub.OnScoreChanged(_score);
     }
 
     internal void GameOver()
     {
         Cursor.visible = true;
         _gameOver = true;
+        _gameStarted = false;
         
-        EventHandler.OnGameOvered();
+        EventHub.OnGameOvered();
     }
 
     internal void UpdateLives(int livesCount)
     {
-        EventHandler.OnHealthChanged(livesCount);
+        EventHub.OnHealthChanged(livesCount);
         if (livesCount == 0)
         {
             GameOver();
@@ -150,12 +156,10 @@ public class GameManager : SingletonBehaviour<GameManager>
         aliveEntities.Clear();
         
         SceneManager.UnloadSceneAsync(1);
-        
-        // foreach (var entity in aliveEntities)
-        // {
-        //     entity.ReturnToPool();
-        // }
-        //
-        // spawner.SpawnPlayer();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -25,6 +25,7 @@ namespace DefaultNamespace
         {
             rb = GetComponent<Rigidbody>();
             audioSource = GetComponent<AudioSource>();
+            audioSource.outputAudioMixerGroup = SoundManager.Instance.inGameMixer.FindMatchingGroups("Master")[0];
         }
 
         public virtual void Init()

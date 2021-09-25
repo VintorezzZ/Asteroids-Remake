@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : BasePlayer
 {
     [SerializeField] float thrustSpeed;
-    [SerializeField] ParticleSystem thrustEffect;
+    [SerializeField] ParticleSystem thrustVFX;
     [SerializeField] AudioClip thrustSFX;
     private float horizontalInput;
     private float verticalInput;
@@ -33,7 +33,7 @@ public class Player : BasePlayer
     {
         if (Input.GetKey("up") || Input.GetKey("w"))
         {
-            thrustEffect.Play();
+            thrustVFX.Play();
             if (!audioSource.isPlaying)
             {
                 audioSource.PlayOneShot(thrustSFX);
@@ -42,7 +42,7 @@ public class Player : BasePlayer
         
         if (Input.GetKeyUp("up") || Input.GetKeyUp("w"))
         {
-            thrustEffect.Stop();
+            thrustVFX.Stop();
             audioSource.Stop();
         }
     }

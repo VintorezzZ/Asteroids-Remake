@@ -1,11 +1,11 @@
 ﻿using DefaultNamespace;
 using UnityEngine;
+using EventHandler = System.EventHandler;
 using Random = UnityEngine.Random;
 
 public class EnemyShip : BasePlayer, IPoolObservable
 {
     [SerializeField] AudioClip bigBoomSFX;
-    
     public override void Init(Player player)
     {
         base.Init(player);

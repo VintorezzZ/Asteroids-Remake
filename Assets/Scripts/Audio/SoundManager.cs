@@ -2,12 +2,11 @@
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Audio;
-using EventHandler = DefaultNamespace.EventHandler;
 
 public class SoundManager : SingletonBehaviour<SoundManager>
 {
     [SerializeField] private AudioSource musicSource, uiSource, inGameSource;
-    [SerializeField] private AudioMixer masterMixer;
+    public AudioMixer uiMixer, musicMixer, inGameMixer;
     public static float CurrentVolume => AudioListener.volume;
     public float globalVolume = .5f;
     private Coroutine _fadeCoroutine;
@@ -16,28 +15,29 @@ public class SoundManager : SingletonBehaviour<SoundManager>
         InitializeSingleton();
 
         AudioListener.volume = globalVolume;
+        inGameSource.outputAudioMixerGroup = inGameMixer.FindMatchingGroups("Master")[0];
         
-        EventHandler.gamePaused += OnGamePaused;
+        EventHub.gamePaused += OnGamePaused;
+        EventHub.gameOvered += OnGameOvered;
+    }
+
+    private void OnGameOvered()
+    {
+        FadeMixerGroup(inGameMixer, 0f);
     }
 
     private void OnDisable()
     {
         StopAllCoroutines();
-        EventHandler.gamePaused -= OnGamePaused;
+        EventHub.gamePaused -= OnGamePaused;
+        EventHub.gameOvered -= OnGameOvered;
     }
 
     private void OnGamePaused(bool paused)
     {
         if(_fadeCoroutine != null) StopCoroutine(_fadeCoroutine);
-            
-        if (paused)
-        {
-            FadeMixerGroup(masterMixer, 0, duration: .5f);
-        }       
-        else
-        {
-            FadeMixerGroup(masterMixer, 1, duration: .5f);
-        }
+
+        FadeMixerGroup(inGameMixer, paused ? 0 : globalVolume, duration: .5f);
     }
 
     private void FadeMixerGroup(AudioMixer audioMixer, float targetVolume, string exposedParam = "volume", float duration = 1f)

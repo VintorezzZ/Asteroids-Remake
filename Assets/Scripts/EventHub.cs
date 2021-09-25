@@ -2,7 +2,7 @@
 
 namespace DefaultNamespace
 {
-    public static class EventHandler
+    public static class EventHub
     {
         public static event Action gameOvered;
         public static event Action<bool> gamePaused;

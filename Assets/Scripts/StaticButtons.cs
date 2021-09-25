@@ -19,6 +19,6 @@ public class StaticButtons : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        GameManager.Instance.QuitGame();
     }
 }
