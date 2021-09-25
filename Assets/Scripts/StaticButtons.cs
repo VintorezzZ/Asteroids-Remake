@@ -7,17 +7,17 @@ public class StaticButtons : MonoBehaviour
 {
     public void StartGame()
     {
-        GameManager.instance.StartGame();
+        GameManager.Instance.StartGame();
     }
 
     public void Unpause()
     {
-        GameManager.instance.UnpauseGame();
+        GameManager.Instance.UnpauseGame();
     }
 
     public void RestartGame()
     {
-        GameManager.instance.RestartGame();
+        GameManager.Instance.RestartGame();
     }
 
     public void ExitGame()

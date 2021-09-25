@@ -5,16 +5,15 @@ using UnityEngine;
 using UnityEngine.Audio;
 using EventHandler = DefaultNamespace.EventHandler;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : SingletonBehaviour<AudioManager>
 {
-    public static AudioManager instance;
     AudioSource audioSource;
     [SerializeField] private AudioMixer masterMixer;
     public float currentVolume = 50;
     private void Awake()
     {
-        instance = this;
-
+        InitializeSingleton();
+        
         //EventHandler.gamePaused += OnGamePaused;
         audioSource = GetComponent<AudioSource>();
         masterMixer.SetFloat("Volume", currentVolume);

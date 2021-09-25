@@ -6,10 +6,8 @@ using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public class UiManager : MonoBehaviour
+    public class UiManager : SingletonBehaviour<UiManager>
     {
-        public static UiManager Instance;
-        
         [SerializeField] GameObject startPanel;
         [SerializeField] GameObject pausePanel;
         [SerializeField] GameObject gameOverPanel;
@@ -19,7 +17,7 @@ namespace DefaultNamespace
 
         private void Awake()
         {
-            Instance = this;
+            InitializeSingleton();
             
             EventHandler.gamePaused += ShowPausePanel;
             EventHandler.gameOvered += ShowGameOverPanel;

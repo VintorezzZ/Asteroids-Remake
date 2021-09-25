@@ -49,7 +49,7 @@ namespace DefaultNamespace
 
         private bool CanShoot()
         {
-            if(GameManager.instance.IsGameOver || GameManager.instance.IsGamePaused || !GameManager.instance.IsGameStarted)
+            if(GameManager.Instance.IsGameOver || GameManager.Instance.IsGamePaused || !GameManager.Instance.IsGameStarted)
                 return false;
 
             return true;
@@ -90,7 +90,7 @@ namespace DefaultNamespace
             explosion.rotation = Quaternion.identity;
             
             if(audioClip)
-                AudioManager.instance.PlayBoomSFX(audioClip);
+                AudioManager.Instance.PlayBoomSFX(audioClip);
         }
 
         protected virtual void Die(AudioClip audioClip , float returningTime)
@@ -102,7 +102,7 @@ namespace DefaultNamespace
         private void ReturnToPool()
         {
             rb.velocity = Vector3.zero;
-            GameManager.instance.aliveEntities.Remove(GetComponent<PoolItem>());
+            GameManager.Instance.aliveEntities.Remove(GetComponent<PoolItem>());
             PoolManager.Return(GetComponent<PoolItem>());
         }
     }

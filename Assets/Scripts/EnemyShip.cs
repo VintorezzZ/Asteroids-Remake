@@ -38,7 +38,7 @@ public class EnemyShip : BasePlayer, IPoolObservable
     {
         if (collision.gameObject.TryGetComponent(out Bullet bullet) || collision.gameObject.TryGetComponent(out Player player))
         {
-            GameManager.instance.AddPoints(1000);
+            GameManager.Instance.AddPoints(1000);
             Die(bigBoomSFX, 0f);
         }
     }

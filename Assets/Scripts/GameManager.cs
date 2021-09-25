@@ -10,10 +10,8 @@ using UnityEngine.UI;
 using EventHandler = DefaultNamespace.EventHandler;
 using Random = UnityEngine.Random;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonBehaviour<GameManager>
 {
-    public static GameManager instance;
-
     public List<PoolItem> aliveEntities;
     public List<Asteroid> aliveAsteroids;
     public float spawnEnemyDelay = 30f;
@@ -34,8 +32,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
-
+        InitializeSingleton();
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
         SceneManager.LoadScene(1, LoadSceneMode.Additive);

@@ -3,14 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolManager : MonoBehaviour
+public class PoolManager : SingletonBehaviour<PoolManager>
 {
-    public static PoolManager Instance;
     private readonly Dictionary<PoolType, PoolContainer> _pools = new Dictionary<PoolType, PoolContainer>();
     private void Awake()
     {
-        Instance = this;
-
+        InitializeSingleton();
+        
         foreach (var poolContainer in GetComponentsInChildren<PoolContainer>())
         {
             _pools.Add(poolContainer.poolType, poolContainer);

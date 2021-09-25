@@ -28,7 +28,7 @@ namespace DefaultNamespace
             var ship = SpawnObject(PoolType.EnemyShip, spawnPoint, Quaternion.identity);
             
             if(ship)
-                ship.GetComponent<EnemyShip>().Init(GameManager.instance.player);
+                ship.GetComponent<EnemyShip>().Init(GameManager.Instance.player);
         }
 
         public void SpawnAsteroids(int count, PoolType type, Vector3 position = new Vector3())
@@ -49,7 +49,7 @@ namespace DefaultNamespace
                 if(asteroid)
                 {
                     if(type == PoolType.BigAsteroid)
-                        GameManager.instance.aliveAsteroids.Add(asteroid);
+                        GameManager.Instance.aliveAsteroids.Add(asteroid);
                     
                     asteroid.Init();
                 }            
@@ -58,7 +58,7 @@ namespace DefaultNamespace
 
         private PoolItem SpawnObject(PoolType type, Vector3 position, Quaternion rotation)
         {
-            if (GameManager.instance.IsGameOver)
+            if (GameManager.Instance.IsGameOver)
                 return null;
             
             var item = PoolManager.Get(type);
@@ -69,7 +69,7 @@ namespace DefaultNamespace
             item.gameObject.SetActive(true);
             item.transform.position = position;
             item.transform.rotation = rotation;
-            GameManager.instance.aliveEntities.Add(item);
+            GameManager.Instance.aliveEntities.Add(item);
             return item;
         }
     }

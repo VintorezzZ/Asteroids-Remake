@@ -89,7 +89,7 @@ public class Player : BasePlayer
                 Die(null, 0f);
             }
             
-            GameManager.instance.UpdateLives(lives);
+            GameManager.Instance.UpdateLives(lives);
             Invoke("ActivateCollider", 2);
         }
     }

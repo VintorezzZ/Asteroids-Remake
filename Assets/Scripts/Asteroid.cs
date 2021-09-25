@@ -53,12 +53,12 @@ public class Asteroid : BasePlayer, IPoolObservable
             {
                 CreateSubAsteroids();
                 
-                GameManager.instance.aliveAsteroids.Remove(this);
+                GameManager.Instance.aliveAsteroids.Remove(this);
                 audioClip = bigBoomSFX;
                 points = 75;
             }
             
-            GameManager.instance.AddPoints(points);
+            GameManager.Instance.AddPoints(points);
             Die(audioClip, .1f);
         }
 
@@ -67,7 +67,7 @@ public class Asteroid : BasePlayer, IPoolObservable
             audioClip = bigBoomSFX;
             if (subAsteroid != null)
             {
-                GameManager.instance.aliveAsteroids.Remove(this);
+                GameManager.Instance.aliveAsteroids.Remove(this);
             }
             
             Die(audioClip, .1f);
@@ -76,7 +76,7 @@ public class Asteroid : BasePlayer, IPoolObservable
 
     private void CreateSubAsteroids()
     {
-        GameManager.instance.spawner.SpawnAsteroids(2, PoolType.SmallAsteroid, transform.position);
+        GameManager.Instance.spawner.SpawnAsteroids(2, PoolType.SmallAsteroid, transform.position);
     }
 
     public void OnReturnToPool()
