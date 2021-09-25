@@ -68,6 +68,7 @@ MonoBehaviour:
   maxSpeed: 3
   maxRotation: 25
   fireSFX: {fileID: 0}
+  bulletPhysicsLayer: 0
   subAsteroid: {fileID: 4089299639951264348, guid: 38f5a69db82c1064a942e10d48c8b5b1, type: 3}
   points: 0
   bigBoomSFX: {fileID: 8300000, guid: 34cb3c581712f684493d05dc40d382b8, type: 3}
