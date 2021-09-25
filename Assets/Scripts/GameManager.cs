@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
+﻿using System.Collections.Generic;
 using DefaultNamespace;
-using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using EventHandler = DefaultNamespace.EventHandler;
-using Random = UnityEngine.Random;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {

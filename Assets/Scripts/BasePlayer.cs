@@ -1,6 +1,4 @@
-﻿using System;
-using UnityEditor.Search;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace DefaultNamespace
