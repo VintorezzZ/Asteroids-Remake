@@ -2,6 +2,7 @@
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Views;
 
 public class GameManager : SingletonBehaviour<GameManager>
 {
@@ -106,6 +107,7 @@ public class GameManager : SingletonBehaviour<GameManager>
     }
     public void UnpauseGame()
     {
+        ViewManager.Show<InGameView>();
         Time.timeScale = 1;
         Cursor.visible = false;
         _gamePaused = false;
@@ -114,6 +116,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     public void PauseGame()
     {
+        ViewManager.Show<PauseView>();
         Time.timeScale = 0;
         Cursor.visible = true;
         _gamePaused = true;
@@ -128,6 +131,7 @@ public class GameManager : SingletonBehaviour<GameManager>
 
     internal void GameOver()
     {
+        ViewManager.Show<GameOverView>();
         Cursor.visible = true;
         _gameOver = true;
         _gameStarted = false;

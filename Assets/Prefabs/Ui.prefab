@@ -9,8 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4454016456964264322}
-  - component: {fileID: 4454016456964264323}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Ui
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,26 +31,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4454016456964264323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4454016456964264332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffa2499b67f64cccbdd36cbdd038fc2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPanel: {fileID: 4454016458045456604}
-  pausePanel: {fileID: 4454016457644251752}
-  gameOverPanel: {fileID: 4454016457385575436}
-  scoreText: {fileID: 4454016458486440944}
-  livesList:
-  - {fileID: 4454016457449903324}
-  - {fileID: 4454016457329024453}
-  - {fileID: 4454016458191514746}
 --- !u!1 &4454016456977946598
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +342,7 @@ GameObject:
   - component: {fileID: 4454016457385575424}
   - component: {fileID: 4454016457385575425}
   - component: {fileID: 4454016457385575426}
+  - component: {fileID: 1115982648}
   m_Layer: 5
   m_Name: GameOverPan
   m_TagString: Untagged
@@ -442,6 +422,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1115982648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454016457385575436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e7b9ba4672c43a4e973b85881a45140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitButton: {fileID: 4454016458592705783}
+  restartButton: {fileID: 4454016457542827368}
 --- !u!1 &4454016457398969594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,6 +1015,7 @@ GameObject:
   - component: {fileID: 4454016457644251756}
   - component: {fileID: 4454016457644251757}
   - component: {fileID: 4454016457644251758}
+  - component: {fileID: 1897108820}
   m_Layer: 5
   m_Name: PausePan
   m_TagString: Untagged
@@ -1099,6 +1094,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1897108820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454016457644251752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b387e40a8e109c34098f59d2b9449af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitButton: {fileID: 4454016458253119318}
+  resumeButton: {fileID: 4454016458806616153}
 --- !u!1 &4454016457727443584
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,6 +1572,7 @@ GameObject:
   - component: {fileID: 4454016458045456593}
   - component: {fileID: 4454016458045456594}
   - component: {fileID: 4454016458045456595}
+  - component: {fileID: 4454016458433924933}
   m_Layer: 5
   m_Name: StartPlayPan
   m_TagString: Untagged
@@ -1641,6 +1651,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &4454016458433924933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454016458045456604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b6656652e734e44a02c7651e8da91c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitButton: {fileID: 4454016457994217839}
+  startButton: {fileID: 4454016457986331971}
 --- !u!1 &4454016458191514746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2099,6 +2123,7 @@ GameObject:
   - component: {fileID: 4454016458683582049}
   - component: {fileID: 4454016458683582050}
   - component: {fileID: 4454016458683582048}
+  - component: {fileID: 4454016458433924932}
   m_Layer: 5
   m_Name: WhilePlayPan
   m_TagString: Untagged
@@ -2178,6 +2203,23 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
+--- !u!114 &4454016458433924932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454016458683582060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cad0312d3ac6842a0acd5cdc953813, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 4454016458486440944}
+  livesList:
+  - {fileID: 4454016457449903324}
+  - {fileID: 4454016457329024453}
+  - {fileID: 4454016458191514746}
 --- !u!1 &4454016458806616164
 GameObject:
   m_ObjectHideFlags: 0
